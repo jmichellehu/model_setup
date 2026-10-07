@@ -1,0 +1,19 @@
+name: isnobal-docs
+channels:
+  - conda-forge
+channel_priority: strict
+dependencies:
+  - compilers
+  - cython
+  - ipykernel
+  - matplotlib
+  - nbclient
+  - nbformat
+  - nodejs>=18
+  - numpy<1.23
+  - pandas<1.4
+  - pip
+  - python=3.9
+  - pip:
+    - jupyter-book
+    - git+https://github.com/iSnobal/pysnobal.git@20260126
