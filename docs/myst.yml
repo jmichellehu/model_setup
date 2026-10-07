@@ -1,0 +1,34 @@
+# Jupyter Book 2 configuration. Build locally with: jupyter-book build --html
+version: 1
+project:
+  title: iSnobal Quickstart
+  description: Install, run, and explore the iSnobal community snow model.
+  github: https://github.com/iSnobal/model_setup
+  bibliography:
+    - references.bib
+  exclude:
+    - _build
+  toc:
+    - file: intro.md
+    - title: Getting started
+      children:
+        - file: install.md
+        - file: run_snobal.ipynb
+        - file: run_rme.md
+    - title: Run your domain
+      children:
+        - file: basin_preparation.md
+        - file: forcings.md
+          children:
+            - file: forcings/hrrr_variables.md
+            - file: forcings/hrrr_area.md
+            - file: forcings/katana.md
+            - file: forcings/other_sources.md
+        - file: configuration.md
+    - title: Outputs
+      children:
+        - file: model_outputs.md
+site:
+  template: book-theme
+  options:
+    logo_text: iSnobal
