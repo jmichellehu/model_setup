@@ -1,4 +1,5 @@
-<!-- TODO: model_setup/conda/README.md - migrate information -->
+# Installation
+
 Running iSnobal requires a single `isnobal` conda environment containing AWSM, SMRF, pysnobal and their dependencies. The same environment works on a laptop and on an HPC cluster.
 
 ## Requirements
@@ -10,53 +11,65 @@ Running iSnobal requires a single `isnobal` conda environment containing AWSM, S
 
 ## Create the environment
 
+**Linux**
+
 Clone this repository and create the environment from the Linux environment file:
 
-```bash
+```{code} bash
+:class: shell-prompt
 git clone https://github.com/iSnobal/model_setup.git
-cd model_setup
+cd model_setup/
 conda env create -f conda/isnobal_linux.yaml
 conda activate isnobal
 ```
 
-The environment pins a specific AWSM release that matches a model release; see [NEWS.md](https://github.com/iSnobal/model_setup/blob/main/NEWS.md).
+The environment pins a specific AWSM release that matches a model release, see [NEWS.md](https://github.com/iSnobal/model_setup/blob/main/NEWS.md) for release history.
 
 ## Check the install
 
-```bash
+```{code} bash
+:class: shell-prompt
 awsm --help
 ```
 
-A usage message listing the `-c/--config_file` option means the install worked.
+If the install worked, a usage message should pop up.
+```text
+usage: awsm [-h] [--version] -c CONFIG_FILE [-sd START_DATE] [-np] [-t]
+            [-mt MEDIUM_THRESHOLD]
+
+Run AWSM with given config file.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+  -c CONFIG_FILE, --config_file CONFIG_FILE
+                        Path to .ini config file.
+  -sd START_DATE, --start_date START_DATE
+                        Overwrite the start date in the .ini and force a single day run.
+                            Format: YYYYMMDD or YYYY-MM-DD
+  -np, --no_previous    Skip finding a previous snow state and storm day file.
+                            Usually used when running the first day.
+  -t, --threshold       Run iSnobal with different mass threshold
+  -mt MEDIUM_THRESHOLD, --medium_threshold MEDIUM_THRESHOLD
+                        Set the medium mass threshold. Default: 25
+```
 
 ## Add Jupyter (optional)
 
-The [point Snobal notebook](run_snobal.ipynb) and the plotting examples need Jupyter and
-matplotlib, which are not part of the model environment:
+Jupyter and matplotlib are needed to run the plotting examples in the [point Snobal notebook](run_snobal.ipynb). These are not part of the model environment and need to be installed separately:
 
-```bash
+```{code} bash
+:class: shell-prompt
 conda install -n isnobal -c conda-forge jupyterlab matplotlib
 ```
 
-<!-- ## Laptop or HPC?
+## Running on macOS
 
-| | Laptop | HPC cluster |
-|---|---|---|
-| Good for | Point runs, test basins, small domains or short periods | Full basins and water years |
-| Install | As above | As above, in your home or project space |
-| Running | Directly from a terminal | Inside a batch job (e.g., SLURM); set threads with `ithreads` in the `[awsm system]` section of the `.ini` |
-
-Start on a laptop with the [RME test basin](run_rme.md). It runs in seconds. -->
-
-(macos)=
-## macOS
-
-A macOS environment is available for Intel and Apple Silicon machines, intended mainly
-for point runs and small domains. See the
-[conda README](https://github.com/iSnobal/model_setup/blob/main/conda/README.md#for-macos)
-for the install script. This guide is tested on Linux only.
+A macOS environment is available for Intel and Apple Silicon machines, intended
+mainly for point runs with Snobal or small model domains with iSnobal. See the
+[macOS section](https://github.com/iSnobal/model_setup/blob/main/conda/README.md#for-macos) in the conda README for the install script.
 
 ## Developer install
 
-To edit the model source code, see the development setup in the
-[conda README](https://github.com/iSnobal/model_setup/blob/main/conda/README.md#model-development-environment).
+To edit the model source code, see the [development setup section](https://github.com/iSnobal/model_setup/blob/main/conda/README.md#model-development-environment) in the
+conda README.

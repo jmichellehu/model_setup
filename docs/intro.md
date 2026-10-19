@@ -1,11 +1,9 @@
-# Quickstart
+# Overview
+This guide details installation, initial model runs, setting up your own basin and working with model outputs.
 
-iSnobal is a physically based, spatially distributed snow model.
-It solves the energy and mass balance of the snowpack on every cell of a grid (hence, *i* for image), producing maps of snow depth, snow water equivalent (SWE), melt, and the energy fluxes that drive them.
+## Modeling background
 
-This guide details installation, initial model runs, setting up your own basin (the all-important topo.nc file) and working with model outputs.
-
-## Overview
+**iSnobal** is a physically based, spatially distributed snow model. It solves the energy and mass balance of the snowpack on every cell of a grid (**i** stands for image), producing maps of snow depth, snow water equivalent (SWE), melt, and the energy fluxes that drive them{cite:p}`marks1999`.
 
 The iSnobal community model is a stack of Python packages, maintained under the
 [Community iSnobal GitHub organization](https://github.com/iSnobal):
@@ -16,25 +14,22 @@ flowchart LR
     T("`**topo.nc**`"<br/>DEM, mask, vegetation) --> B
     B --> C["`**iSnobal**`"<br/>snow energy balance per cell]
     T --> C
-    C --> D(snow.nc, em.nc<br/>model outputs)
+    C --> D("`**model outputs**`"<br/>e.g., snow.nc, em.nc)
     subgraph "`**AWSM**`"
       B
       C
     end
 ```
 
-- **Snobal** is the one-dimensional, two-layer snowpack model at the core
-  {cite}`marks1992`. **iSnobal** runs Snobal on every cell of a grid
-  {cite}`marks1999`. Both are wrapped for Python by
+- **SMRF** (Spatial Modeling for Resources Framework){cite:p}`havens2017` transforms input weather data into gridded,
+  hourly [forcings](forcings.md) based on model domain information provided by the `topo.nc`. These domain-distributed forcings are then fed to iSnobal.
+-  At the core of **iSnobal** is the one-dimensional, two-layer snowpack model: **Snobal**{cite:p}`marks1992`. iSnobal runs Snobal on every cell of the model domain grid without any interaction between neighboring cells. Both the 1D and 2D models are wrapped for Python by
   [pysnobal](https://github.com/iSnobal/pysnobal).
-- **SMRF** (Spatial Modeling for Resources Framework) transforms input weather data into gridded,
-  hourly [forcings](forcings.md) {cite}`havens2017` based on model domain information in the `topo.nc`.
-- **AWSM** (Automated Water Supply Model) runs SMRF and iSnobal together from a single
-  `.ini` [configuration file](configuration.md) {cite}`havens2020`. The `awsm` command is used for
+- **AWSM** (Automated Water Supply Model){cite:p}`havens2020` runs SMRF and iSnobal together from a single
+   [configuration file](configuration.md) (`.ini`). The `awsm` command is used for
   distributed runs.
 
-## Next steps
-
+## Get started
 | If you want to… | Go to |
 |---|---|
 | Install the model | [Installation](install.md) |
