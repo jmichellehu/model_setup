@@ -30,7 +30,7 @@ The rest of the template holds the maintainers' recommended settings. These may 
 
 ```{important}
 `<path_dr>` must exist before the run starts! AWSM will only create the following:
-`/<path_dr>/<basin>/` and `/<path_dr>/<basin>/<project_name>`
+`<path_dr>/<basin>/` and `/<path_dr>/<basin>/<project_name>`
 ```
 
 ## Section overview

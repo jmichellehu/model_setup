@@ -79,6 +79,7 @@ snow = xr.open_dataset(f"{run}/snow.nc")
 em = xr.open_dataset(f"{run}/em.nc")
 
 snow["specific_mass"].isel(time=-1).plot()   # SWE map at the last hour
+```
 
 ```{figure} images/snow_specific_mass_last_hour.png
 :alt: A map of snow water equivalent across the RME grid at the end of the day from about 35 kg m⁻² in the West to >70 kg m⁻² in the East.
