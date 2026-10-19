@@ -1,7 +1,7 @@
 # Jupyter Book 2 configuration. Build locally with: jupyter-book build --html
 version: 1
 project:
-  title: iSnobal Quickstart
+  title: iSnobal
   description: Install, run, and explore the iSnobal community snow model.
   github: https://github.com/iSnobal/model_setup
   bibliography:
@@ -28,7 +28,16 @@ project:
     - title: Outputs
       children:
         - file: model_outputs.md
+    # - title: Analysis - To Be Created (put under Outputs?)
+      # children:
+      #   - file: aggregate_evaluation.md
+      #   - file: time_series.md
+      #   - file: spatial.md
+      #   - file: reports.md
+      #   - file: comparison.md
 site:
   template: book-theme
   options:
-    logo_text: iSnobal
+    logo_text: Community iSnobal
+    numbered_references: true
+    style: custom.css

@@ -1,0 +1,39 @@
+/* Render numbered in-text citations as superscripts, e.g. "melt¹,²" */
+.cite-group.parenthetical {
+  font-size: 0.75em;
+  vertical-align: super;
+  line-height: 0;
+}
+.cite-group.parenthetical::before,
+.cite-group.parenthetical::after {
+  content: '';
+}
+.cite-group.parenthetical > *::after {
+  content: ',';
+}
+.cite-group.parenthetical > *:last-of-type::after {
+  content: '';
+}
+
+/* Shell prompts for ```{code} bash blocks with `:class: shell-prompt`.
+   A column of "$" is placed at the left of each line of code so the prompt
+   is never part of the text and is not selected or copied. */
+.shell-prompt code {
+  display: block;
+  position: relative;
+  padding-left: 2ch;
+  line-height: 1.5em;
+}
+.shell-prompt code::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2ch;
+  background-color: currentColor;
+  opacity: 0.5;
+  pointer-events: none;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 30' preserveAspectRatio='xMinYMid meet'%3E%3Ctext x='0' y='21' font-family='monospace' font-size='20'%3E$%3C/text%3E%3C/svg%3E") 0 0 / 2ch 1.5em repeat-y;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 30' preserveAspectRatio='xMinYMid meet'%3E%3Ctext x='0' y='21' font-family='monospace' font-size='20'%3E$%3C/text%3E%3C/svg%3E") 0 0 / 2ch 1.5em repeat-y;
+}
