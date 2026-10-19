@@ -53,7 +53,8 @@ Energy terms are averages over the hour; mass terms are totals for the hour. Ene
 ## Forcing grids
 
 The SMRF forcing grids, such as `air_temp.nc`, `precip.nc` and `net_solar.nc`, are the
-hourly inputs iSnobal received. Which ones are saved is set by `variables` in `[output]`.
+hourly inputs iSnobal received. The variables saved to file are set by `variables` in the `[output]`
+section of the [`config/awsm.ini`](https://github.com/iSnobal/model_setup/blob/main/config/awsm.ini) file.
 
 ```{note}
 The forcing files include the first hour of the day (00:00). Whether `snow.nc` and `em.nc`
@@ -78,10 +79,15 @@ snow = xr.open_dataset(f"{run}/snow.nc")
 em = xr.open_dataset(f"{run}/em.nc")
 
 snow["specific_mass"].isel(time=-1).plot()   # SWE map at the last hour
+
+```{figure} images/snow_specific_mass_last_hour.png
+:alt: A map of snow water equivalent across the RME grid at the end of the day from about 35 kg m⁻² in the West to >70 kg m⁻² in the East.
+
+Snow water equivalent at the end of one day (February 17th, 1986) over the Reynolds Mountain East grid.
 ```
 
 ```{warning}
-In current AWSM outputs, the `long_name` attributes of `x` and `y` in `snow.nc` and
-`em.nc` are swapped. The coordinate values are correct; set axis labels yourself when
-plotting.
+Current AWSM outputs have swapped the `long_name` attributes of `x` and `y` in `snow.nc` and
+`em.nc` but the coordinate values and the `standard_name` attributes are correct.
+When plotting, the `long_name` is used for axis labeling and will need to be modified.
 ```
