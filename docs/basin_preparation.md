@@ -2,7 +2,7 @@
 
 Every iSnobal run starts from a `topo.nc` file that defines the model grid: elevation, the
 basin mask, and vegetation properties. This page builds the `topo.nc` for any US watershed with the scripts in
-[`scripts/topo`](https://github.com/iSnobal/model_setup/tree/main/scripts/topo).
+[`scripts/topo`](https://github.com/iSnobal/model_setup/tree/basin-setup-workflow/scripts/topo).
 
 ## `topo.nc` contents
 
@@ -19,12 +19,16 @@ SMRF uses elevation to distribute weather across the terrain and the vegetation 
 to adjust wind and radiation under canopy.
 
 The grid is projected to the basin's UTM zone, 100 m by default.
+```{warning}
+The `topo.nc` must be **projected in UTM** and **contain valid values for the entirety of the domain**. Missing elevation values (NaN or -99999) are common gotchas that will disrupt model runs.
+```
 
 ## Set up
 
 The topo scripts use their own conda environment, `basin_setup`, separate from `isnobal`:
 
-```bash
+```{code} bash
+:class: shell-prompt
 cd model_setup
 conda env create -f conda/basin_setup.yaml
 conda activate basin_setup
@@ -51,8 +55,7 @@ Download and unzip it into one folder, keeping this layout:
 
 ```{tip}
 **CHPC users (University of Utah):** the data are already staged at
-`/uufs/chpc.utah.edu/common/home/skiles-group3/LANDFIRE/`, which is the scripts' default.
-You can leave out `--landfire-dir` and `--veg-params-csv` below.
+`/uufs/chpc.utah.edu/common/home/skiles-group3/LANDFIRE/`, which is the default path within scripts. You do not need the `--landfire-dir` and `--veg-params-csv` flags below.
 ```
 
 ## Build `topo.nc`
@@ -77,8 +80,7 @@ python generate_topo.py -s /path/to/basin.gpkg -o ./my_basin \
     --veg-params-csv /path/to/landfire/landfire_veg_params_assigned.csv
 ```
 
-A name search defaults to HUC 8 basins; use `-level` to search other sizes. When several
-basins match, the script prints their HUC IDs and stops. Rerun with `-huc`.
+Name searches default to HUC 8 basins. To look for other HUC sizes, use `-level`. Name searches alone may yield several matching basins. In this case, the script prints their respective HUC IDs for further user selection. Rerun the command with the appropriate hucid flagged with `-huc`.
 
 The HUC 10 Reynolds Creek example (about 360 km²) builds in under a minute:
 
@@ -118,20 +120,19 @@ topo = xr.open_dataset("reynolds_creek/output_100m/topo.nc")
 
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9, 6), constrained_layout=True)
 topo["dem"].plot(ax=ax1, cmap="terrain", cbar_kwargs={"label": "Elevation (m)"})
-topo["veg_height"].plot(ax=ax2, cmap="Greens", cbar_kwargs={"label": "Vegetation height (m)"})
+topo["veg_height"].plot(ax=ax2, cmap="Greens",
+                        cbar_kwargs={"label": "Vegetation height (m)"})
 for ax, title in [(ax1, "dem"), (ax2, "veg_height")]:
     topo["mask"].plot.contour(ax=ax, levels=[0.5], colors="k", linewidths=1)
     ax.set(aspect="equal", xlabel="Easting (m)", ylabel="Northing (m)", title=title)
 ```
 
 ```{figure} images/topo_reynolds_creek.png
-:alt: Two maps of the Reynolds Creek HUC 10 grid with the basin outline in black. Left, elevation from about 700 m in the north to 2200 m in the southwest. Right, vegetation height, mostly low shrubs with taller canopy in the southern uplands.
+:alt: Two maps of the Reynolds Creek HUC 10 grid with a black basin outline. Left, elevation from about 700 m in the northeast corner to 2200 m in the southwest corner. Right, vegetation height classes from LANDFIRE, mostly low shrubs with taller canopy in the southern uplands.
 
 Elevation (left) and vegetation height (right) for Reynolds Creek, Idaho, with the basin
 mask outlined. The grid extends past the basin so that terrain around it is available.
 ```
 
 ## Next step
-
-With `topo.nc` in hand, prepare the weather data that drives the model:
-[Forcing data](forcings.md).
+Now that we have the `topo.nc`, we can prepare the weather data [forcings](forcings.md).

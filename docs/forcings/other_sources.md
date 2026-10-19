@@ -21,7 +21,5 @@ cloud_factor:    ./station_data/cloud_factor.csv
 
 ## WRF or other gridded netCDF
 These are currently experimental.
-<!-- TODO: CONUS404 and maybe AORC for CIROH? Joe is working on CONUS404 -->
-
 Set `data_type: wrf` with `wrf_file`, or `data_type: netcdf` with `netcdf_file`, in the
 `[gridded]` section.
